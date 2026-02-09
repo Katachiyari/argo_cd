@@ -13,6 +13,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: nginxx-nodeport
+            name: nginxx-clusterip
             port:
               number: 80
