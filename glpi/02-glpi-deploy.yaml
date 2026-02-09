@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: glpi
+  namespace: glpi
+  labels:
+    app: glpi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: glpi
+  template:
+    metadata:
+      labels:
+        app: glpi
+    spec:
+      containers:
+        - name: glpi
+          image: glpi/glpi:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: GLPI_DB_HOST
+              value: "10.20.71.10:3306"
+            - name: GLPI_DB
+              value: "glpi"
+            - name: GLPI_DB_USER
+              value: "glpi_user"
+            - name: GLPI_DB_PASSWORD
+              value: "P@ssw0rd34"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          volumeMounts:
+            - name: glpi-content
+              mountPath: /var/www/html/glpi-content
+      volumes:
+        - name: glpi-content
+          persistentVolumeClaim:
+            claimName: pvc-glpi-content
+

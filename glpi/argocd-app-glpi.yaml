@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: glpi
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Katachiyari/argo_cd/glpi
+    targetRevision: main
+    path: glpi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: glpi
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: false   # mets true plus tard quand tout est bien en Git
+    syncOptions:
+      - CreateNamespace=false

@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+ name: glpi
+ namespace: glpi
+spec:
+ rules:
+   - host: glpi.afpa-devops.lab
+     http:
+       paths:
+         - path: /
+           pathType: Prefix
+           backend:
+             service:
+               name: glpi
+               port:
+                number: 80

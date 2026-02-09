@@ -6,13 +6,13 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-  - host: nginxx.afpadevops.lab
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: nginxx-clusterip
-            port:
-              number: 80
+    - host: nginxx.afpadevops.lab
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nginxx-clusterip
+                port:
+                  number: 80
