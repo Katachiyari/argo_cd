@@ -1,0 +1,6 @@
+
+# Secrets / clés
+argocd_github_ed25519
+argocd_github_ed25519.pub
+*.pem
+*.key
