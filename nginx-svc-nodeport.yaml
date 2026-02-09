@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
  name: nginxx-nodeport
+namespace: nginxx
 spec:
  type: NodePort
  selector:
