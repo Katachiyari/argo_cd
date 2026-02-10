@@ -1,0 +1,20 @@
+# Service to expose the nginx Deployment internally.
+# Type/ports are configurable via `values.yaml`.
+apiVersion: v1
+kind: Service
+metadata:
+  # Resource name derived from release + chart name.
+  name: {{ include "nginxx.fullname" . }}
+  labels:
+{{ include "nginxx.labels" . | nindent 4 }}
+spec:
+  # Service type: ClusterIP by default.
+  type: {{ .Values.service.type }}
+  selector:
+    # Selects pods created by the Deployment.
+    app.kubernetes.io/name: {{ include "nginxx.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+    # Exposes the container port through the service.
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}

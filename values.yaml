@@ -1,0 +1,48 @@
+# Default values for the nginxx chart.
+# This file contains configurable parameters that templates read.
+# Override these values with `-f myvalues.yaml` or `--set key=value`.
+
+# Number of pod replicas for the Deployment.
+replicaCount: 1
+
+# Container image settings.
+image:
+  # Image repository (without tag).
+  repository: nginx
+  # Image tag.
+  tag: "1.25-alpine"
+  # Kubernetes image pull policy.
+  pullPolicy: IfNotPresent
+
+# Service exposure settings.
+service:
+  # Kubernetes service type.
+  type: ClusterIP
+  # Service port exposed inside the cluster.
+  port: 80
+  # Container port that the Service targets.
+  targetPort: 80
+
+# Ingress configuration (Traefik by default).
+ingress:
+  # Enable or disable the Ingress resource creation.
+  enabled: true
+  # IngressClass to use (e.g., traefik, nginx).
+  className: traefik
+  # DNS name for external access.
+  host: nginxx.afpadevops.lab
+  # URL path to route.
+  path: /
+  # Path matching strategy.
+  pathType: Prefix
+
+# Container resource requests/limits.
+resources:
+  # Minimum resources requested by the scheduler.
+  requests:
+    cpu: "100m"
+    memory: "128Mi"
+  # Maximum resources the container is allowed to use.
+  limits:
+    cpu: "500m"
+    memory: "256Mi"

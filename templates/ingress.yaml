@@ -1,0 +1,27 @@
+# Ingress for external access.
+# Created only when `.Values.ingress.enabled` is true.
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  # Resource name derived from release + chart name.
+  name: {{ include "nginxx.fullname" . }}
+  labels:
+{{ include "nginxx.labels" . | nindent 4 }}
+spec:
+  # IngressClass controller (e.g., traefik).
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          # HTTP path routing definition.
+          - path: {{ .Values.ingress.path }}
+            pathType: {{ .Values.ingress.pathType }}
+            backend:
+              service:
+                # Service backend target.
+                name: {{ include "nginxx.fullname" . }}
+                port:
+                  number: {{ .Values.service.port }}
+{{- end }}

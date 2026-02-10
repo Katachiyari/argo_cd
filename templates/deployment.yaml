@@ -1,0 +1,35 @@
+# Deployment for the nginx pods.
+# This template is driven by values in `values.yaml` (image, replicas, resources).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # Resource name derived from release + chart name.
+  name: {{ include "nginxx.fullname" . }}
+  labels:
+{{ include "nginxx.labels" . | nindent 4 }}
+spec:
+  # Desired number of replicas.
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    # Selector must match the pod template labels below.
+    matchLabels:
+      app.kubernetes.io/name: {{ include "nginxx.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      # Pod labels used by Service selectors.
+      labels:
+        app.kubernetes.io/name: {{ include "nginxx.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        # Single nginx container.
+        - name: {{ include "nginxx.name" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            # Exposed container port.
+            - containerPort: {{ .Values.service.targetPort }}
+          # Resource requests/limits for scheduling and capping usage.
+          resources:
+{{ toYaml .Values.resources | nindent 12 }}

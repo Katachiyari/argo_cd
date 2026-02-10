@@ -1,0 +1,14 @@
+# Chart metadata for the Nginx deployment.
+# This file is read by Helm to understand the chart identity, versioning, and type.
+# It should stay small but be explicit to help operators and CI tools.
+apiVersion: v2
+# The chart name. This is also the default name used by templates when no override is given.
+name: nginxx
+# Human-readable summary of what this chart installs.
+description: Simple nginx deployment with service and ingress
+# Chart type: "application" for deployable services (not a library chart).
+type: application
+# Chart version (semver). Increment on chart changes.
+version: 0.1.0
+# The version of the app being deployed. This is informational and used in labels.
+appVersion: "1.25-alpine"
